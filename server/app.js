@@ -1,15 +1,21 @@
 require("dotenv").config();
+require("express-async-errors");
 
 const express = require("express");
 const app = express();
 
+const mainRouter = require("./routes/routes");
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
+
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Inventory Project API is running...");
-});
+app.use("/api/v1", mainRouter);
 
-const port = process.env.PORT || 5000;
+app.use(errorHandlerMiddleware);
+app.use(notFoundMiddleware);
+
+const port = process.env.PORT || 3000;
 
 const start = async () => {
     try {
