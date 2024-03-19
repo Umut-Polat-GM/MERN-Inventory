@@ -1,0 +1,281 @@
+openapi: 3.1.0
+info:
+    title: Inventory API
+    contact: {}
+    version: "1.0"
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+servers:
+    - url: https://mern-inventory-95du.onrender.com/api/v1
+      variables: {}
+paths:
+    /register:
+        post:
+            tags:
+                - Auth
+            summary: Register
+            description: User Register
+            operationId: Register
+            parameters: []
+            requestBody:
+                description: ""
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: "#/components/schemas/RegisterRequest"
+                                - examples:
+                                      - username: umut04
+                                        email: umut04@gmail.com
+                                        password: Up1234
+                            contentMediaType: application/json
+                        example:
+                            username: umut04
+                            email: umut04@gmail.com
+                            password: Up1234
+                required: true
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security: []
+        parameters: []
+    /login:
+        post:
+            tags:
+                - Auth
+            summary: Login
+            description: User Login
+            operationId: Login
+            parameters: []
+            requestBody:
+                description: ""
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: "#/components/schemas/LoginRequest"
+                                - examples:
+                                      - email: umut04@gmail.com
+                                        password: Up1234
+                            contentMediaType: application/json
+                        example:
+                            email: umut04@gmail.com
+                            password: Up1234
+                required: true
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security: []
+        parameters: []
+    /inventory:
+        get:
+            tags:
+                - Inventory
+            summary: Inventory
+            description: Get Inventory List
+            operationId: Inventory
+            parameters: []
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security:
+                - bearer: []
+        post:
+            tags:
+                - Inventory
+            summary: Create Inventory
+            description: ""
+            operationId: CreateInventory
+            parameters: []
+            requestBody:
+                description: ""
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: "#/components/schemas/CreateInventoryRequest"
+                                - examples:
+                                      - name: chair
+                                        price: 500
+                                        quantity: 14
+                                        description: Personal Chair
+                                        responsible: Yusuf
+                            contentMediaType: application/json
+                        example:
+                            name: chair
+                            price: 500
+                            quantity: 14
+                            description: Personal Chair
+                            responsible: Yusuf
+                required: true
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security:
+                - bearer: []
+        parameters: []
+    /inventory/{id}:
+        parameters:
+            - in: path
+              name: id
+              required: true
+              schema:
+                  type: string
+              description: The Inventory ID
+        get:
+            tags:
+                - Inventory
+            summary: Single Inventory
+            operationId: SingleInventory
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security:
+                - bearer: []
+        patch:
+            tags:
+                - Inventory
+            summary: Update Inventory
+            operationId: UpdateInventory
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UpdateInventoryRequest"
+                        examples:
+                            example1:
+                                value:
+                                    name: phone
+                                    price: 7500
+                                    quantity: 4
+                                    description: Personal phone
+                                    responsible: Yusuf
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security:
+                - bearer: []
+        delete:
+            tags:
+                - Inventory
+            summary: Delete Inventory
+            operationId: DeleteInventory
+            responses:
+                "200":
+                    description: ""
+                    headers: {}
+            deprecated: false
+            security:
+                - bearer: []
+components:
+    schemas:
+        RegisterRequest:
+            type: object
+            required:
+                - username
+                - email
+                - password
+            properties:
+                username:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
+            examples:
+                example1:
+                    value:
+                        username: umut04
+                        email: umut04@gmail.com
+                        password: Up1234
+        LoginRequest:
+            type: object
+            required:
+                - email
+                - password
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+            examples:
+                example1:
+                    value:
+                        email: umut04@gmail.com
+                        password: Up1234
+        CreateInventoryRequest:
+            type: object
+            required:
+                - name
+                - price
+                - quantity
+                - description
+                - responsible
+            properties:
+                name:
+                    type: string
+                price:
+                    type: integer
+                quantity:
+                    type: integer
+                description:
+                    type: string
+                responsible:
+                    type: string
+            examples:
+                example1:
+                    value:
+                        name: chair
+                        price: 500
+                        quantity: 14
+                        description: Personal Chair
+                        responsible: Yusuf
+        UpdateInventoryRequest:
+            type: object
+            required:
+                - name
+                - price
+                - quantity
+                - description
+                - responsible
+            properties:
+                name:
+                    type: string
+                price:
+                    type: integer
+                quantity:
+                    type: integer
+                description:
+                    type: string
+                responsible:
+                    type: string
+            examples:
+                example1:
+                    value:
+                        name: phone
+                        price: 7500
+                        quantity: 4
+                        description: Personal phone
+                        responsible: Yusuf
+    securitySchemes:
+        bearer:
+            type: http
+            scheme: bearer
+security: []
+tags:
+    - name: Auth
+      description: ""
+    - name: Inventory
+      description: ""
