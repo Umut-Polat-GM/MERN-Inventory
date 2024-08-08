@@ -34,13 +34,13 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
-app.use("/", (req, res) => {
-    res.send("<h1>Store Inventory API</h1> <a href='/api-docs'>Documentation</a>");
-});
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/v1", mainRouter);
+
+app.use("/", (req, res) => {
+    res.send("<h1>Store Inventory API</h1> <a href='/api-docs'>Documentation</a>");
+});
 
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
