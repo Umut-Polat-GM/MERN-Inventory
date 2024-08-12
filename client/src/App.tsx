@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import { ModeState } from "./store/mode/modeSlice";
-
+import Login from "./auth/Login";
 
 function App() {
     const mode = useSelector((state: { mode: ModeState }) => state.mode.mode);
     const [theme, setTheme] = useState(createTheme({ palette: { mode: mode } }));
-    
+
     useEffect(() => {
         setTheme(createTheme({ palette: { mode: mode } }));
     }, [mode]);
@@ -17,6 +17,7 @@ function App() {
         <ThemeProvider theme={theme}>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="login" element={<Login />} />
             </Routes>
         </ThemeProvider>
     );
